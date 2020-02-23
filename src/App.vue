@@ -1,28 +1,51 @@
-<template>
+<template lang="html">
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Photex</h1>
+    <photographer-list :photos="photos"></photographer-list>
+    <photo-detail :photo='selectedPhoto'></photo-detail>
   </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { eventBus } from './main.js';
+import PhotographerList from './components/PhotographerList';
+import PhotoDetail from './components/PhotoDetail';
 
 export default {
-  name: 'App',
+  name: "app",
   components: {
-    HelloWorld
+    "photographer-list": PhotographerList,
+    "photo-detail": PhotoDetail
+  },
+  data() {
+    return {
+      photos: [],
+      selectedPhoto: null
+    };
+  },
+  methods: {
+    getPhotos: function() {
+      fetch("https://picsum.photos/v2/list?page=2&limit=100")
+      .then(res => res.json())
+      .then(data => this.photos = data)
+    }
+  },
+  mounted() {
+    this.getPhotos();
+
+
+
+
+
+
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="css" scoped>
+
+h1 {
+  font-family: helvetica;
 }
 </style>
